@@ -10,7 +10,7 @@
                         <img src="../assets/img/user.jpg" alt="">
                     </div>
                     <div class="user-info">
-                        <div>Jonny <strong>Deen</strong></div>
+                        <div>Bertin <strong>Mounok</strong></div>
                         <div class="user-text-online">
                             <span class="user-circle-online btn btn-success btn-circle "></span>&nbsp;En ligne
                         </div>
@@ -76,6 +76,20 @@
 
                     <li>
                         <a class="sublist" href="users_delete.php"><i class="fa fa-trash-o fa-fw"></i>Abonnements supprimés</a>
+                    </li>
+                </ul>
+                <!-- second-level-items -->
+            </li>
+
+
+            <li>
+                <a href="#"><i class="fa fa-suitcase fa-fw"></i> Recharge<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#" class="sublist" data-toggle="modal" data-target="#modal_add_recharge"><i class="fa fa-plus fa-fw"></i> Type de Recharge </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sublist" data-toggle="modal" data-target="#modal_add_InterneRecharge"><i class="fa fa-plus fa-fw"></i> Recharge Interne </a>
                     </li>
                 </ul>
                 <!-- second-level-items -->
