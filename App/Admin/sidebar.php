@@ -71,11 +71,11 @@
                         <a href="#" class="sublist" data-toggle="modal" data-target="#modal_add_abonnements"><i class="fa fa-plus fa-fw"></i> Ajouter un Abonnement </a></a>
                     </li>
                     <li>
-                        <a class="sublist" href="users.php"><i class="fa fa-list-alt fa-fw"></i> Liste des abonnements</a>
+                        <a class="sublist" href="abonnements.php"><i class="fa fa-list-alt fa-fw"></i> Liste des abonnements</a>
                     </li>
 
                     <li>
-                        <a class="sublist" href="users_delete.php"><i class="fa fa-trash-o fa-fw"></i>Abonnements supprimés</a>
+                        <a class="sublist" href="abonnements_delete.php"><i class="fa fa-trash-o fa-fw"></i>Abonnements supprimés</a>
                     </li>
                 </ul>
                 <!-- second-level-items -->
