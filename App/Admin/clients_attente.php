@@ -1,11 +1,12 @@
 <?php session_start(); ?>
-<?php require '../Config/Config_Server.php'; ?>
+<?php require '../Config/Config_Server.php';
+$connexion = App::getDB();?>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adsyst Recharge Canal Sat | Tableau de bord Administrateur</title>
+    <title>Adsyst Recharge Canal Sat | Clients en Attentes</title>
     <!-- Core CSS - Include with every page -->
     <link href="../assets/plugins/bootstrap/bootstrap.css" rel="stylesheet" />
     <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -47,234 +48,251 @@
         <div class="row">
             <!-- Page Header -->
             <div class="col-lg-12">
-                <h1 class="page-header">Clients en attentes</h1>
+                <h1 class="page-header">Clients en Attentes</h1>
             </div>
             <!--End Page Header -->
         </div>
 
-        <div class="row">
-            <!-- Welcome -->
-            <div class="col-lg-12">
-                <div class="alert alert-info">
-                    <i class="fa fa-folder-open"></i><b>&nbsp;Hello ! </b>Welcome Back <b>Jonny Deen </b>
-                    <i class="fa  fa-pencil"></i><b>&nbsp;2,000 </b>Support Tickets Pending to Answere. nbsp;
-                </div>
-            </div>
-            <!--end  Welcome -->
-        </div>
-
 
         <div class="row">
-            <!--quick info section -->
-            <div class="col-lg-3">
-                <div class="alert alert-danger text-center">
-                    <i class="fa fa-calendar fa-3x"></i>&nbsp;<b>20 </b>Meetings Sheduled This Month
-
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="alert alert-success text-center">
-                    <i class="fa  fa-beer fa-3x"></i>&nbsp;<b>27 % </b>Profit Recorded in This Month
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="alert alert-info text-center">
-                    <i class="fa fa-rss fa-3x"></i>&nbsp;<b>1,900</b> New Subscribers This Year
-
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="alert alert-warning text-center">
-                    <i class="fa  fa-pencil fa-3x"></i>&nbsp;<b>2,000 $ </b>Payment Dues For Rejected Items
-                </div>
-            </div>
-            <!--end quick info section -->
-        </div>
-
-        <div class="row">
-
-
-
 
             <div class="col-lg-12">
 
                 <div class="success_new_client"></div>
+                <?php
+                $nbre = $connexion->rowCount('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               WHERE transaction_state="0"
+                                                                               ORDER BY myId DESC');
+                if($nbre == 0){
+                    echo '<div class="alert alert-warning text-center">Liste des clients en attentes vide.</div>';
+                }
 
+                else {
+                    ?>
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
 
-
-
-
-
-                <!-- Advanced Tables -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                <thead>
-                                <tr class="bg-info">
-                                    <!--   <th>#Id</th> -->
-
-                                    <th>Equipement (Numéro de série) </th>
-                                    <th>Date d'entrée</th>
-                                    <th>Qté entrée</th>
-                                    <th>Enrégistrée par</th>
-                                    <th>Etat</th>
-                                    <th>Validée par</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="odd gradeX">
-
-                                    <td> Routeur MIKROTIK (k-500)</td>
-                                    <td> 2018-01-08 13:02:16</td>
-                                    <td> 1</td>
-                                    <td> super admin</td>
-                                    <td>
-                                        <btn class="btn-danger btn-xs">En attente</btn>
-
-                                    </td>
-                                    <td> super admin</td>
-
-                                    <td>
-                                        <div class="btn-group pull-right">
-                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </button>
-                                            <ul class="dropdown-menu slidedown" wfd-invisible="true">
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                        <i class="fa fa-edit"></i> modifier
-                                                    </a>
-                                                </li>
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                        <i class="fa fa-check"></i> Valider
-                                                    </a>
-                                                </li>
-
-
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_delete_client">
-                                                        <i class="fa fa-minus fa-fw"></i> Supprimer
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <tr class="odd gradeX">
-
-                                    <td> PARABOLE  (32)</td>
-                                    <td> 2018-01-08 13:03:14</td>
-                                    <td> 10</td>
-                                    <td> super admin</td>
-                                    <td>
-
-                                        <btn class="btn-success btn-xs">Validée</btn>
-
-                                    </td>
-                                    <td> super admin</td>
-
-                                    <td>
-                                        <div class="btn-group pull-right ">
-                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </button>
-                                            <ul class="dropdown-menu slidedown" wfd-invisible="true">
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                        <i class="fa fa-edit"></i> modifier
-                                                    </a>
-                                                </li>
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                        <i class="fa fa-check"></i> Valider
-                                                    </a>
-                                                </li>
-
-
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_delete_client">
-                                                        <i class="fa fa-minus fa-fw"></i> Supprimer
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-
-                                <tr class="odd gradeX">
-
-                                    <td> PARABOLE  (32)</td>
-                                    <td> 2018-01-08 13:04:14</td>
-                                    <td> 10</td>
-                                    <td> super admin</td>
-                                    <td>
-                                        <btn class="btn-danger btn-xs">En attente</btn>
-
-                                    </td>
-                                    <td> super admin</td>
-
-                                    <td>
-                                        <div class="btn-group pull-right ">
-                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                <i class="fa fa-chevron-down"></i>
-                                            </button>
-                                            <ul class="dropdown-menu slidedown" wfd-invisible="true">
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                        <i class="fa fa-edit"></i> modifier
-                                                    </a>
-                                                </li>
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                        <i class="fa fa-check"></i> Valider
-                                                    </a>
-                                                </li>
-
-
-                                                <li class="divider"></li>
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#modal_delete_client">
-                                                        <i class="fa fa-minus fa-fw"></i> Supprimer
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-
-
-                                </tbody>
-                            </table>
                         </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr class="bg-info">
+                                        <!--   <th>#Id</th> -->
+                                        <th>#ID </th>
+                                        <th>N°Transaction</th>
+                                        <th>Type Opération</th>
+                                        <th>Abonnement</th>
+                                        <th>Client</th>
+                                        <th>Téléphone</th>
+                                        <th>Etat</th>
+                                        <th>Validée par</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    foreach (App::getDB()->query('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               WHERE transaction_state="0"
+                                                                               ORDER BY myId DESC') as $users):
 
+                                        echo '<tr class="odd gradeX">
+
+                                        <td>'.$users->myId.'</td>
+                                        <td>'.$users->ref_num_transaction.'</td>
+                                        <td>'.$users->myRecharge.'</td>
+                                        <td>'.$users->abonnement.'</td>
+                                         <td>'.$users->last_name.'</td>
+                                         <td>'.$users->phone.'</td>
+                                        <td>';
+
+                                        if($users->transaction_state == '0'){
+                                            echo '<btn class="btn-danger btn-xs">En attente</btn>
+                                                  <td>???</td>';
+                                        } else{
+                                            echo '<btn class="btn-success btn-xs">Validée</btn>
+                                                  <td>Bertin</td>';
+                                        }
+                                        echo '</td>
+                                   
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                    <i class="fa fa-chevron-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu slidedown" wfd-invisible="true">
+                                                    <!--<li>
+                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client'.$users->myId.'">
+                                                            <i class="fa fa-edit"></i> modifier
+                                                        </a>
+                                                    </li>-->
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#modal_validate'.$users->myId.'">
+                                                            <i class="fa fa-check"></i> Valider
+                                                        </a>
+                                                    </li>
+
+
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                        <a href="#" data-toggle="modal" data-target="#modal_invalider'.$users->myId.'">
+                                                            <i class="fa fa-minus fa-fw"></i> Invalider
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                        </td>
+
+                                    </tr>';
+                                        echo '<div class="modal fade" id="modal_update_client'.$users->myId.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" wfd-invisible="true">
+
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="text-center text-info help">Vous pouvez aussi directement modifier ces informations</div>
+                                            <div class="text-center message"></div>
+
+
+                                            <form role="form" class="update_client'.$users->myId.'">
+                                            <div class="form-group">
+                                                <label>Nom *</label>
+                                                <input class="form-control" type="text" value="'.$users->last_name.'" name="last_name">
+                                                <input type="hidden" value="'.$users->myId.'" name="id_trans">
+                                            </div>
+             
+
+                    <div class="form-group">
+                        <label for="phone">Telephone *</label>
+                        <input id="phone" class="form-control" type="tel" name="phone" required value="'.$users->phone.'">
                     </div>
-                </div>
-                <!--End Advanced Tables -->
+                    
+                          <div class="form-group">
+                                    <label for="depot">Canal de paiement</label>
+                                    <select id="depot" name="depot"
+                                            class="form-control">';
 
+                                        foreach (App::getDB()->query('SELECT id, name, mobile_operator FROM recharge ORDER BY id DESC') as $subcriptions):
+                                            echo '<option title="'.$subcriptions->mobile_operator .'" value="' . $subcriptions->id . '">' . $subcriptions->name .'</option>';
+                                        endforeach;
+
+                                        echo '</select>
+                                </div>
+
+                    <div class="form-group">
+                        <label for="abonnement">Numéro Abonnement </label>
+                        <input id="abonnement" class="form-control" type="text" name="abonnement" value="'.$users->numero_abonnement.'">
+                    </div>';
+                                        ?>
+                                        <div class="form-group">
+                                            <label for="bouquet">Bouquet *</label>
+                                            <select id="bouquet" name="bouquet"
+                                                    class="form-control">
+                                                <?php
+                                                foreach (App::getDB()->query('SELECT id, name FROM subcriptions ORDER BY id DESC') as $subcriptions):
+                                                    echo '<option title="'.$subcriptions->description.'" value="' . $subcriptions->id . '">' . $subcriptions->name . '</option>';
+                                                endforeach;
+                                                ?>
+                                            </select>
+                                        </div>
+
+                                        <button class="btn btn-primary btn_update_client" onclick="update_clients(<?=$users->myId;?>);return false;">Envoyer</button>
+                                        </form>
+                                        <?php
+                                        echo '</div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>';
+
+                                        echo '<div class="modal fade" id="modal_validate'.$users->myId.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" wfd-invisible="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Validation des transaction</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="message"></div>
+                                            Voulez-vous vraiment Valider la transaction de référence  <strong>'.$users->ref_num_transaction.'</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+
+
+                                            <button type="button" onclick="validate_transaction_attente('.$users->myId.')" class="btn btn-primary">Oui</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+
+                                        echo '<div class="modal fade" id="modal_invalider'.$users->myId.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" wfd-invisible="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Validation des transaction</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="message"></div>
+                                            Voulez-vous vraiment invalider la transaction de référence  <strong>'.$users->ref_num_transaction.'</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+
+
+                                            <button type="button" onclick="invalidate_transaction_attente('.$users->myId.')" class="btn btn-primary">Oui</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+                                    endforeach;
+                                    ?>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+                    <?php
+                }
+                ?>
             </div>
 
 
@@ -290,75 +308,7 @@
 </div>
 <!-- end wrapper -->
 
-
-
-
-
-
-<!-- ajout Utilisateur -->
-
-<div class="modal fade" id="modal_add_client" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Nouvel Utilisateur</h4>
-            </div>
-            <div class="modal-body">
-                <div class="text-center message"></div>
-
-
-                <form role="form" class="add_client">
-                    <div class="form-group">
-                        <label for="nom">Nom *</label>
-                        <input class="form-control" type="text" name="nom">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="prenom">Prénom </label>
-                        <input class="form-control" type="text" name="prenom">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input class="form-control" type="email" name="email">
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Telephone *</label>
-                        <input class="form-control" type="tel" name="tel1">
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="role">Role *</label>
-                        <select id="role" name="role"
-                                class="form-control">
-                            <?php
-                            foreach (App::getDB()->query('SELECT id, name FROM role ORDER BY id DESC') as $role):
-                                echo '<option value="' . $role->id . '">' . $role->name . '</option>';
-                            endforeach;
-                            ?>
-                        </select>
-                    </div>
-
-
-                    <button  class="btn btn-primary btn_add_client">Envoyer</button>
-                    <button type="reset" class="btn btn-success">Effacer</button>
-                </form>
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-<?php require 'footer.php';?>
+<?php require 'footer.php'; ?>
 
 </body>
 

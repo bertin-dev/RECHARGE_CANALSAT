@@ -211,3 +211,131 @@ if(isset($_GET['subcription'])) {
     echo json_encode($data);
 
 }
+
+
+//recharge
+if(isset($_GET['recharge'])) {
+    $msg = "";
+
+    if(is_numeric($_POST['nom'][0])){
+        $msg = 'Le Nom doit commencer par une lettre';
+        //exit;
+    }
+    // Vérification de la validité des champs
+    if (!preg_match('/^[A-Za-z0-9-_ ]{3,50}$/', $_POST['nom'])) {
+        $msg = "Le Nom est Invalid";
+        //exit();
+    }
+
+
+    if (!preg_match('/^[0-9-_ ]{9}$/', $_POST['telephone'])) {
+        $msg = "Le numéro est Invalid";
+        //exit();
+    }
+
+
+    $_POST['nom'] = strtolower(stripslashes(htmlspecialchars($_POST['nom'])));
+    $_POST['telephone'] = strtolower(stripslashes(htmlspecialchars($_POST['telephone'])));
+    $_POST['num_abonne'] = strtolower(stripslashes(htmlspecialchars($_POST['num_abonne'])));
+    $_POST['bouquet'] = strtolower(stripslashes(htmlspecialchars($_POST['bouquet'])));
+
+    // Connexion à la base de données
+
+        nettoieProtect();
+
+    // Génération de la clef d'activation
+    $caracteres = array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
+        "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q",
+        "R", "S", "T", "U", "V", "W", "X", "Y", "Z", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+    $caracteres_aleatoires = array_rand($caracteres, 10);
+    $ref_transaction = "";
+
+    foreach ($caracteres_aleatoires as $i) {
+        $ref_transaction .= $caracteres[$i];
+    }
+    $connexion->insert('INSERT INTO users(last_name, phone, role_id, subcriptions_id, created_at, numero_abonnement) 
+                                      VALUES(?,?,?,?,?,?)', [$_POST['nom'], $_POST['telephone'], "1",  $_POST['bouquet'], time(), $_POST['num_abonne']]);
+
+    $max1 = $connexion->prepare_request('SELECT Max(id) AS max_id FROM users ORDER BY id DESC LIMIT 1 ', array());
+
+
+    $connexion->insert('INSERT INTO transaction(ref_num_transaction, recharge_id, users_id, transaction_state, created_at) 
+                                      VALUES(?,?,?,?,?)', [$ref_transaction,  $_POST['depot'], $max1['max_id'], '0',  time()]);
+
+        $max = $connexion->prepare_request('SELECT Max(id) AS max_id FROM recharge ORDER BY id DESC LIMIT 1 ', array());
+
+
+        $connexion->insert('INSERT INTO journal(users_id, name, ip, created_at)
+                                               VALUES(?, ?, ?, ?)', array($max['max_id'], 'Recharge Client', get_ip(), time()));
+
+        $msg = 'success';
+
+
+    $data = array(
+        'resultat' => $msg,
+        'numero' => $_POST['telephone']
+    );
+    echo json_encode($data);
+
+}
+
+
+//API D'ENVOI SMS
+if(isset($_GET['apiSMS']) && !empty($_GET['apiSMS'])){
+
+    // GlobexCamSMS's POST URL
+    $postUrl = "http://193.105.74.59/api/sendsms/xml";
+    // XML-formatted data
+    $xmlString = "<SMS>
+                     <authentification>
+                          <username>xxx</username>
+                          <password>xxxx</password>
+                     </authentification>
+                     <message>
+                          <sender>" . $_POST['sender']. "</sender>
+                          <text>". $_POST['message']. "</text>
+                     </message>
+                     <recipients>
+                          <gsm messageId=\"1000\">38598514674</gsm>
+                          <gsm messageId=\"1001\">38591222344</gsm>
+                          <gsm messageId=\"1002\">385956773453</gsm>
+                     </recipients>
+                           </SMS>";
+    // previously formatted XML data becomes value of "XML" POST variable
+    $fields = "XML=" . urlencode($xmlString);
+    // in this example, POST request was made using PHP's CURL
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $postUrl);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+    // response of the POST request
+    $response = curl_exec($ch);
+    curl_close($ch);
+    // write out the
+    echo $response;
+}
+
+
+//type d'operation
+if(isset($_GET['typeOper'])) {
+    $msg = "";
+
+    $_POST['libelle'] = strtolower(stripslashes(htmlspecialchars($_POST['libelle'])));
+    $_POST['operateur'] = strtolower(stripslashes(htmlspecialchars($_POST['operateur'])));
+
+    // Connexion à la base de données
+    $connexion->insert('INSERT INTO recharge(name, mobile_operator, created_at) 
+                                      VALUES(?,?,?)', [$_POST['libelle'], $_POST['operateur'], time()]);
+
+
+    $connexion->insert('INSERT INTO journal(users_id, name, ip, created_at)
+                                               VALUES(?, ?, ?, ?)', array($compte, 'Recharge Client', get_ip(), time()));
+
+    $msg = 'success';
+
+    $data = array(
+        'resultat' => $msg
+    );
+    echo json_encode($data);
+
+}

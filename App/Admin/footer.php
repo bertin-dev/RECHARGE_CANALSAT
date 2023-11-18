@@ -151,26 +151,26 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Type de recharge</h4>
+                <h4 class="modal-title" id="myModalLabel">Type d'opération</h4>
             </div>
             <div class="modal-body">
                 <div class="text-center message"></div>
+                <div id="rapport_typeRecharge" class="alert alert-info text-center message">Veuillez Remplir Tous les Champs</div>
 
-
-                <form role="form" class="add_client">
+                <form role="form" class="add_client" id="typeOper" method="post" onsubmit="return false;" accept-charset="UTF-8">
                     <div class="form-group">
-                        <label for="titre">Titre *</label>
-                        <input id="titre" class="form-control" type="text" name="titre" required>
+                        <label for="libelle">Libelle *</label>
+                        <input id="libelle" class="form-control" type="text" name="libelle" required>
                     </div>
 
 
                     <div class="form-group">
-                        <label for="operateur">Opérateur </label>
+                        <label for="operateur">Opérateur de téléphonie</label>
                         <input id="operateur" class="form-control" type="text" name="operateur">
                     </div>
 
 
-                    <button  class="btn btn-primary btn_add_client">Envoyer</button>
+                    <input id="typeOperation" type="submit" class="btn btn-primary btn_add_client" value="Envoyer">
                     <button type="reset" class="btn btn-success">Effacer</button>
                 </form>
 
@@ -359,6 +359,142 @@
                     $('.message').html("<div class='alert alert-success text-center'>Utilisateur restauré avec succcès !!!</div>");
                     setTimeout(function(){
                         window.location.href = "users_delete.php";
+                    }, 2000);
+                } else{
+                    $('.message').html(data);
+                }
+
+            }
+        });
+    }
+
+    //Transaction
+    function update_clients(id) {
+        $.ajax({
+            url : '../Controllers/traitement.php?update_client=1',
+            type : 'POST',
+            data: $('.update_client'+id).serialize(),
+
+            success : function(data){
+                if (data=='success') {
+                    $('.message').html("<div class='alert alert-success text-center'>Transaction modifié avec succcès !!!</div>");
+                    setTimeout(function(){
+                        window.location.href = "index.php";
+                    }, 2000);
+
+                }else{
+                    $('.message').html(data);
+                }
+            }
+        });
+    }
+    function validate_transaction(id) {
+        $.ajax({
+            url : '../Controllers/traitement.php?validate_transaction='+id,
+            type : 'GET',
+
+            success : function(data){
+
+                if (data=='success') {
+                    $('.message').html("<div class='alert alert-success text-center'>Transaction validé avec succcès !!!</div>");
+                    setTimeout(function(){
+                        window.location.href = "index.php";
+                    }, 2000);
+                } else{
+                    $('.message').html(data);
+                }
+
+            }
+
+        });
+    }
+    function invalidate_transaction(id) {
+        $.ajax({
+            url : '../Controllers/traitement.php?invalidateTrans='+id,
+            type : 'GET',
+            success : function(data){
+                if (data=='success') {
+                    $('.message').html("<div class='alert alert-success text-center'>Invalidation de la transaction réussie !!!</div>");
+                    setTimeout(function(){
+                        window.location.href = "index.php";
+                    }, 2000);
+                } else{
+                    $('.message').html(data);
+                }
+
+            }
+        });
+    }
+
+    //Transaction en attente
+    function validate_transaction_attente(id) {
+        $.ajax({
+            url : '../Controllers/traitement.php?validate_transaction='+id,
+            type : 'GET',
+
+            success : function(data){
+
+                if (data=='success') {
+                    $('.message').html("<div class='alert alert-success text-center'>Transaction validé avec succcès !!!</div>");
+                    setTimeout(function(){
+                        window.location.href = "clients_attente.php";
+                    }, 2000);
+                } else{
+                    $('.message').html(data);
+                }
+
+            }
+
+        });
+    }
+    function invalidate_transaction_attente(id) {
+        $.ajax({
+            url : '../Controllers/traitement.php?invalidateTrans='+id,
+            type : 'GET',
+            success : function(data){
+                if (data=='success') {
+                    $('.message').html("<div class='alert alert-success text-center'>Invalidation de la transaction réussie !!!</div>");
+                    setTimeout(function(){
+                        window.location.href = "clients_attente.php";
+                    }, 2000);
+                } else{
+                    $('.message').html(data);
+                }
+
+            }
+        });
+    }
+
+    //Transaction validé
+    function validate_transaction_valide(id) {
+        $.ajax({
+            url : '../Controllers/traitement.php?validate_transaction='+id,
+            type : 'GET',
+
+            success : function(data){
+
+                if (data=='success') {
+                    $('.message').html("<div class='alert alert-success text-center'>Transaction validé avec succcès !!!</div>");
+                    setTimeout(function(){
+                        window.location.href = "clients_valide.php";
+                    }, 2000);
+                } else{
+                    $('.message').html(data);
+                }
+
+            }
+
+        });
+    }
+    function invalidate_transaction_valide(id) {
+        $.ajax({
+            url : '../Controllers/traitement.php?invalidateTrans='+id,
+            type : 'GET',
+            success : function(data){
+                if (data=='success') {
+                    $('.message').html("<div class='alert alert-success text-center'>Invalidation de la transaction réussie !!!</div>");
+                    setTimeout(function(){
+                        window.location.href = "clients_valide.php";
                     }, 2000);
                 } else{
                     $('.message').html(data);

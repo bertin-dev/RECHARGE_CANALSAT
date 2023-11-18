@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3f573c4d-8fe9-44b3-bee0-b7f49db5e68f" name="Default Changelist" comment="Implémentation du CRUD pour l'abonnement et l'utilisateur">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/abonnements.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/abonnements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/classement_clients.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/clients_attente.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/clients_attente.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/clients_valide.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/clients_valide.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/notifications.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/notifications.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/sidebar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Admin/users.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Admin/users.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Config/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Config/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Controllers/fonctions.js" beforeDir="false" afterPath="$PROJECT_DIR$/App/Controllers/fonctions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Controllers/submit.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Controllers/submit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/Controllers/traitement.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/Controllers/traitement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/blank.html" beforeDir="false" afterPath="$PROJECT_DIR$/App/blank.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/App/login.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
+  <component name="ProjectId" id="1cSHjtfRs0dNo8WxvlqhPacL4wo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/xampp/htdocs/PROJET ADSYST RECHARGE CANAL SAT",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\PROJET ADSYST RECHARGE CANAL SAT" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3f573c4d-8fe9-44b3-bee0-b7f49db5e68f" name="Default Changelist" comment="" />
+      <created>1590515212809</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590515212809</updated>
+      <workItem from="1590515214368" duration="69573000" />
+      <workItem from="1590996041442" duration="11740000" />
+      <workItem from="1591443615932" duration="599000" />
+      <workItem from="1591554853566" duration="2397000" />
+      <workItem from="1592492570526" duration="43000" />
+      <workItem from="1592493124722" duration="31000" />
+      <workItem from="1592493679568" duration="26000" />
+      <workItem from="1592812568150" duration="651000" />
+      <workItem from="1593202091711" duration="927000" />
+      <workItem from="1595134565097" duration="4648000" />
+      <workItem from="1595383351220" duration="2729000" />
+      <workItem from="1596284069284" duration="686000" />
+      <workItem from="1607091167804" duration="559000" />
+      <workItem from="1620215759885" duration="67000" />
+      <workItem from="1634547558954" duration="1915000" />
+      <workItem from="1642139157708" duration="2930000" />
+      <workItem from="1649593073091" duration="10557000" />
+      <workItem from="1650022520423" duration="2603000" />
+      <workItem from="1700288661881" duration="1347000" />
+    </task>
+    <task id="LOCAL-00001" summary="Implémentation du CRUD pour l'abonnement et l'utilisateur">
+      <created>1590890430839</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1590890430840</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Implémentation du CRUD pour l'abonnement et l'utilisateur" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implémentation du CRUD pour l'abonnement et l'utilisateur" />
+  </component>
+</project>

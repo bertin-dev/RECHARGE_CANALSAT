@@ -112,7 +112,7 @@ $connexion = App::getDB();
                                             <ul class="dropdown-menu slidedown" wfd-invisible="true">
                                                 <li>
                                                     <a href="#" data-toggle="modal" data-target="#modal_update_client'.$subcriptions->id.'">
-                                                        <i class="fa fa-plus fa-fw"></i> Modifier
+                                                        <i class="fa fa-edit fa-fw"></i> Modifier
                                                     </a>
                                                 </li>
 

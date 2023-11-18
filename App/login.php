@@ -27,41 +27,19 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">                  
                     <div class="panel-heading">
-                        <h3 class="panel-title">Recharge</h3>
+                        <h3 class="panel-title">Connexion</h3>
                     </div>
                     <div class="panel-body">
                         <form role="form">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Nom" name="nom" type="text" autofocus
-                                           value="<?php if (isset($_POST['nom'])) {
-                                                                   echo $_POST['nom'];} ?>">
+                                    <input class="form-control" placeholder="telephone" name="telephone" type="number" autofocus required
+                                           value="<?php if (isset($_POST['telephone'])) {
+                                                                   echo $_POST['telephone'];} ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Téléphone" name="telephone" type="number" required value="<?php if (isset($_POST['telephone'])) {
-                                        echo $_POST['telephone'];} ?>">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="N° Abonnement" name="num_abonne" type="number" required value="<?php if (isset($_POST['num_abonne'])) {
-                                        echo $_POST['num_abonne'];} ?>">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="bouquet">Bouquet</label>
-                                    <select id="bouquet" name="bouquet"
-                                            class="form-control">
-                                        <?php
-                                        foreach (App::getDB()->query('SELECT id, name FROM subcriptions ORDER BY id DESC') as $subcriptions):
-                                            echo '<option value="' . $subcriptions->id . '">' . $subcriptions->name . '</option>';
-                                        endforeach;
-                                        ?>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>
-                                        <a href="login.php" title="login"> se Connecter</a>
-                                    </label>
+                                    <input class="form-control" placeholder="password" name="password" type="password" required value="<?php if (isset($_POST['password'])) {
+                                        echo $_POST['password'];} ?>">
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
                                 <a href="Admin/index.php" class="btn btn-lg btn-success btn-block">Login</a>

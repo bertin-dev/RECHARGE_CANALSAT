@@ -37,11 +37,6 @@
                         <a class="sublist" href="clients_attente.php"><i class="fa fa-list fa-fw"></i>Clients en attentes</a>
                     </li>
 
-                    <li>
-                        <a class="sublist" href="classement_clients.php"><i class="fa fa-sort-amount-desc fa-fw"></i>Classements des clients</a>
-                    </li>
-
-
                 </ul>
                 <!-- second-level-items -->
             </li>
@@ -86,10 +81,10 @@
                 <a href="#"><i class="fa fa-suitcase fa-fw"></i> Recharge<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#" class="sublist" data-toggle="modal" data-target="#modal_add_recharge"><i class="fa fa-plus fa-fw"></i> Type de Recharge </a>
+                        <a href="#" class="sublist" data-toggle="modal" data-target="#modal_add_recharge"><i class="fa fa-plus fa-fw"></i>Ajouter Type d'opération </a>
                     </li>
                     <li>
-                        <a href="#" class="sublist" data-toggle="modal" data-target="#modal_add_InterneRecharge"><i class="fa fa-plus fa-fw"></i> Recharge Interne </a>
+                        <a href="#" class="sublist" data-toggle="modal" data-target="#modal_add_InterneRecharge"><i class="fa fa-plus fa-fw"></i> Effectuer une Recharge</a>
                     </li>
                 </ul>
                 <!-- second-level-items -->
@@ -102,7 +97,7 @@
                         <a href="../blank.html">Blank Page</a>
                     </li>
                     <li>
-                        <a href="../login.php">Login Page</a>
+                        <a href="../index.php">Login Page</a>
                     </li>
                 </ul>
                 <!-- second-level-items -->

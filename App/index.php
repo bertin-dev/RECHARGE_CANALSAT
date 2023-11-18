@@ -1,5 +1,7 @@
 <?php session_start(); ?>
-<?php require 'Config/Config_Server.php'; ?>
+<?php require 'Config/Config_Server.php';
+$connexion = App::getDB();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -25,24 +27,62 @@
                 Adsyst Recharge CanalSat
                 </h4>
             <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-default">                  
+                <div class="login-panel panel panel-default">
+                    <div id="rapport_recharge" class="alert alert-info text-center message">Veuillez Remplir Tous les Champs</div>
+
                     <div class="panel-heading">
-                        <h3 class="panel-title">Connexion</h3>
+                        <h3 class="panel-title">Recharge</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                         <form role="form" id="recharge" method="post"
+                              onsubmit="return false;" accept-charset="UTF-8">
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="telephone" name="telephone" type="number" autofocus required
-                                           value="<?php if (isset($_POST['telephone'])) {
-                                                                   echo $_POST['telephone'];} ?>">
+                                    <input class="form-control" placeholder="Nom et Prénom" name="nom" type="text" autofocus
+                                           value="<?php if (isset($_POST['nom'])) {
+                                                                   echo $_POST['nom'];} ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="password" name="password" type="password" required value="<?php if (isset($_POST['password'])) {
-                                        echo $_POST['password'];} ?>">
+                                    <input class="form-control" placeholder="Téléphone" name="telephone" type="number" required value="<?php if (isset($_POST['telephone'])) {
+                                        echo $_POST['telephone'];} ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="depot">Canal de paiement</label>
+                                    <select id="depot" name="depot"
+                                            class="form-control">
+                                        <?php
+                                        foreach (App::getDB()->query('SELECT id, name, mobile_operator FROM recharge ORDER BY id DESC') as $subcriptions):
+                                            echo '<option title="'.$subcriptions->mobile_operator .'" value="' . $subcriptions->id . '">' . $subcriptions->name . '</option>';
+                                        endforeach;
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="N° Abonnement" name="num_abonne" type="number" required value="<?php if (isset($_POST['num_abonne'])) {
+                                        echo $_POST['num_abonne'];} ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bouquet">Bouquet</label>
+                                    <select id="bouquet" name="bouquet"
+                                            class="form-control">
+                                        <?php
+                                        foreach (App::getDB()->query('SELECT id, name FROM subcriptions ORDER BY id DESC') as $subcriptions):
+                                            echo '<option value="' . $subcriptions->id . '">' . $subcriptions->name . '</option>';
+                                        endforeach;
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        <a href="login.php" title="login"> se Connecter</a>
+                                    </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="Admin/index.php" class="btn btn-lg btn-success btn-block">Login</a>
+                                <input id="recharge_valid" type="submit" class="btn btn-lg btn-success btn-block" value="Effectuer"/>
                             </fieldset>
                         </form>
                     </div>
@@ -51,10 +91,7 @@
         </div>
     </div>
 
-     <!-- Core Scripts - Include with every page -->
-    <script src="assets/plugins/jquery-1.10.2.js"></script>
-    <script src="assets/plugins/bootstrap/bootstrap.min.js"></script>
-    <script src="assets/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <?php require 'footer.php';?>
 
 </body>
 

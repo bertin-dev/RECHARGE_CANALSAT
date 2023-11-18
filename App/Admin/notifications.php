@@ -2,116 +2,57 @@
     <!-- main dropdown -->
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="top-label label label-danger">3</span><i class="fa fa-envelope fa-3x"></i>
+            <span class="top-label label label-danger">
+                     <?php
+                    $nbre = $connexion->rowCount('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               WHERE transaction_state="0"
+                                                                               ORDER BY myId DESC');
+                    echo $nbre;
+                    ?> </span><i class="fa fa-bell fa-3x"></i>
         </a>
         <!-- dropdown-messages -->
         <ul class="dropdown-menu dropdown-messages">
-            <li>
+<?php
+foreach (App::getDB()->query('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               WHERE transaction_state="0"
+                                                                               ORDER BY myId DESC
+                                                                               LIMIT 3') as $users):
+
+    echo '<li>
                 <a href="#">
                     <div>
-                        <strong><span class=" label label-danger">Andrew Smith</span></strong>
+                        <strong><span class=" label label-danger">'.$users->last_name.'</span></strong>
                         <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
+                                        <em>'.date('d/m/Y H:m:s', $users->created). '</em>
                                     </span>
                     </div>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                    <div>'.$users->myRecharge.'</div>
                 </a>
             </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <strong><span class=" label label-info">Jonney Depp</span></strong>
-                        <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                    </div>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <strong><span class=" label label-success">Jonney Depp</span></strong>
-                        <span class="pull-right text-muted">
-                                        <em>Yesterday</em>
-                                    </span>
-                    </div>
-                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center" href="#">
-                    <strong>Read All Messages</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
+            <li class="divider"></li>';
+endforeach;
+     ?>
         </ul>
         <!-- end dropdown-messages -->
     </li>
-
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="top-label label label-warning">5</span>  <i class="fa fa-bell fa-3x"></i>
-        </a>
-        <!-- dropdown alerts-->
-        <ul class="dropdown-menu dropdown-alerts">
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-comment fa-fw"></i>New Comment
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-twitter fa-fw"></i>3 New Followers
-                        <span class="pull-right text-muted small">12 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-envelope fa-fw"></i>Message Sent
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-tasks fa-fw"></i>New Task
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a href="#">
-                    <div>
-                        <i class="fa fa-upload fa-fw"></i>Server Rebooted
-                        <span class="pull-right text-muted small">4 minutes ago</span>
-                    </div>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center" href="#">
-                    <strong>See All Alerts</strong>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-        <!-- end dropdown-alerts -->
-    </li>
-
-    <!-- end main dropdown -->
 </ul>

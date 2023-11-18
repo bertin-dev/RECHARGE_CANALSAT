@@ -238,3 +238,98 @@ if (isset($_GET['restaure_users'])) {
     }
 
 }
+
+//mise à jour transtion
+if (isset($_GET['update_client'])) {
+
+
+    if (!isset($_POST['last_name']) || empty($_POST['last_name'])) {
+
+        echo "<div class='alert alert-danger'>Le Nom est obligatoire</div>";
+
+    }elseif(!isset($_POST['id_trans']) || empty($_POST['id_trans'])){
+
+        echo "<div class='alert alert-danger'>Ne truquez pas les infos SVP</div>";
+
+    }elseif(!isset($_POST['phone']) || empty($_POST['phone'])){
+
+        echo "<div class='alert alert-danger'>Veuillez inserez le téléphone</div>";
+
+    }elseif(!isset($_POST['abonnement']) || empty($_POST['abonnement'])){
+
+        echo "<div class='alert alert-danger'>Veuillez inserer un numero d'abonnement</div>";
+
+    }else{
+
+        $id_trans=htmlspecialchars(trim($_POST['id_trans']));
+        $last_name=htmlspecialchars(trim($_POST['last_name']));
+        $id_transaction=htmlspecialchars(trim($_POST['id_transaction']));
+        $phone=htmlspecialchars(trim($_POST['phone']));
+        $abonnement=htmlspecialchars(trim($_POST['abonnement']));
+
+        App::getDB()->update('UPDATE transaction SET ref_num_transaction =:ref_num_transaction, updated_at=:updated_at 
+                                       WHERE id=:id',
+            array('ref_num_transaction ' => $id_transaction, 'updated_at' => time(),
+                'id' => $id_trans));
+
+        $connexion->insert('INSERT INTO journal(users_id, name, ip, created_at)
+                                               VALUES(?, ?, ?, ?)', array($compte, 'Modification de la transaction', get_ip(), time()));
+
+
+        echo "success";
+    }
+
+
+}
+
+//Validation des transactions
+if (isset($_GET['validate_transaction'])) {
+
+    if(!isset($_GET['validate_transaction']) || empty($_GET['validate_transaction'])){
+
+        echo "<div class='alert alert-danger'>Ne truquez pas les infos SVP</div>";
+
+    }else{
+
+        $id=htmlspecialchars(trim($_GET['validate_transaction']));
+
+        App::getDB()->update('UPDATE transaction SET transaction_state=:state, updated_at=:updated_at  
+                                       WHERE id=:id',
+            array('state' => '1', 'updated_at' => time(), 'id' => $id));
+
+        $connexion->insert('INSERT INTO journal(users_id, name, ip, created_at)
+                                               VALUES(?, ?, ?, ?)', array($compte, 'Validation de la transaction', get_ip(), time()));
+
+
+        echo "success";
+
+    }
+
+
+}
+
+//invalidation de la transaction
+if (isset($_GET['invalidateTrans'])) {
+
+    if(!isset($_GET['invalidateTrans']) || empty($_GET['invalidateTrans'])){
+
+        echo "<div class='alert alert-danger'>Ne truquez pas les infos SVP</div>";
+
+    }else{
+
+        $id=htmlspecialchars(trim($_GET['invalidateTrans']));
+
+
+        App::getDB()->update('UPDATE transaction SET transaction_state=:state, restaured_at=:restaured_at  
+                                       WHERE id=:id',
+            array('state' => '0', 'restaured_at' => time(), 'id' => $id));
+
+        $connexion->insert('INSERT INTO journal(users_id, name, ip, created_at)
+                                               VALUES(?, ?, ?, ?)', array($compte, 'Invalidation de la transaction', get_ip(), time()));
+
+
+        echo "success";
+
+    }
+
+}

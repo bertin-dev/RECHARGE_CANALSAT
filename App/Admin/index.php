@@ -1,5 +1,6 @@
 <?php session_start(); ?>
-<?php require '../Config/Config_Server.php'; ?>
+<?php require '../Config/Config_Server.php';
+$connexion = App::getDB();?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,8 +57,7 @@
                 <!-- Welcome -->
                 <div class="col-lg-12">
                     <div class="alert alert-info">
-                        <i class="fa fa-folder-open"></i><b>&nbsp;Hello ! </b>Welcome Back <b>Jonny Deen </b>
- <i class="fa  fa-pencil"></i><b>&nbsp;2,000 </b>Support Tickets Pending to Answere. nbsp;
+                        <i class="fa fa-folder-open"></i><b>&nbsp;Bonjour ! </b>Welcome Back <b>Bertin Mounok </b>
                     </div>
                 </div>
                 <!--end  Welcome -->
@@ -68,24 +68,116 @@
                 <!--quick info section -->
                 <div class="col-lg-3">
                     <div class="alert alert-danger text-center">
-                        <i class="fa fa-calendar fa-3x"></i>&nbsp;<b>20 </b>Meetings Sheduled This Month
+                        <i class="fa fa-group fa-3x"></i>&nbsp;<b>
+                            <?php
+                            $nbre = $connexion->rowCount('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               WHERE transaction_state="0"
+                                                                               ORDER BY myId DESC');
+                            echo $nbre;
+
+                            if($nbre > 1)
+                                echo ' Clients en Attentes';
+                            else
+                                echo ' Client en Attente';
+                            ?>
+                            </b>
+
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="alert alert-info text-center">
+                        <i class="fa fa-group fa-3x"></i>&nbsp;<b>
+                            <?php
+                            $nbre = $connexion->rowCount('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               WHERE transaction_state="1"
+                                                                               ORDER BY myId DESC');
+
+                            echo $nbre;
+
+                            if($nbre > 1)
+                                echo ' Clients validés';
+                            else
+                                echo ' Client validé';
+                            ?>
+                        </b>
 
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="alert alert-success text-center">
-                        <i class="fa  fa-beer fa-3x"></i>&nbsp;<b>27 % </b>Profit Recorded in This Month  
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="alert alert-info text-center">
-                        <i class="fa fa-rss fa-3x"></i>&nbsp;<b>1,900</b> New Subscribers This Year
+                        <i class="fa  fa-beer fa-3x"></i>&nbsp;<b>
+                            <?php
+                            $nbre = $connexion->rowCount('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               ORDER BY myId DESC');
 
+                            echo $nbre;
+
+                            if($nbre > 1)
+                                echo ' Transactions ';
+                            else
+                                echo ' Transaction ';
+                            ?>
+                        </b>
+                        <b>
+                            <?php
+                                        foreach (App::getDB()->query('SELECT sum(amount) AS montant
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id ') as $users):
+                            echo 'Montant total '. $users->montant . ' FCFA';
+                                        endforeach;
+                                                                               ?>
+                        </b>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <div class="alert alert-warning text-center">
-                        <i class="fa  fa-pencil fa-3x"></i>&nbsp;<b>2,000 $ </b>Payment Dues For Rejected Items
+                        <i class="fa  fa-user fa-3x"></i>&nbsp;<b>
+                            <?php
+                            $nbre = $connexion->rowCount('SELECT id FROM users');
+
+                            echo $nbre;
+
+                            if($nbre > 1)
+                                echo ' utilisateurs internes';
+                            else
+                                echo ' utilisateur interne';
+                            ?>
+                        </b>
                     </div>
                 </div>
                 <!--end quick info section -->
@@ -99,12 +191,25 @@
                 <div class="col-lg-12">
 
                     <div class="success_new_client"></div>
+                    <?php
+                    $nbre = $connexion->rowCount('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               ORDER BY myId DESC');
+                    if($nbre == 0){
+                        echo '<div class="alert alert-warning text-center">Liste des clients vide.</div>';
+                    }
 
-
-
-
-
-
+                    else {
+                    ?>
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -116,43 +221,65 @@
                                     <thead>
                                     <tr class="bg-info">
                                         <!--   <th>#Id</th> -->
-
-                                        <th>Equipement (Numéro de série) </th>
-                                        <th>Date d'entrée</th>
-                                        <th>Qté entrée</th>
-                                        <th>Enrégistrée par</th>
+                                        <th>#ID </th>
+                                        <th>N°Transaction</th>
+                                        <th>Type Opération</th>
+                                        <th>Abonnement</th>
+                                        <th>Client</th>
+                                        <th>Téléphone</th>
                                         <th>Etat</th>
                                         <th>Validée par</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="odd gradeX">
+                                    <?php
+                                        foreach (App::getDB()->query('SELECT transaction.id AS myId, ref_num_transaction, transaction_state, 
+                                                                               last_name, phone, transaction.created_at AS created,
+                                                                               recharge.name AS myRecharge, numero_abonnement,
+                                                                               subcriptions.name AS abonnement
+                                                                               FROM users
+                                                                               INNER JOIN transaction 
+                                                                               ON transaction.users_id=users.id
+                                                                               INNER JOIN recharge
+                                                                               ON transaction.recharge_id=recharge.id
+                                                                               INNER JOIN subcriptions
+                                                                               ON subcriptions.id=users.subcriptions_id
+                                                                               ORDER BY myId DESC') as $users):
 
-                                        <td> Routeur MIKROTIK (k-500)</td>
-                                        <td> 2018-01-08 13:02:16</td>
-                                        <td> 1</td>
-                                        <td> super admin</td>
-                                        <td>
-                                            <btn class="btn-danger btn-xs">En attente</btn>
+                                            echo '<tr class="odd gradeX">
 
-                                        </td>
-                                        <td> super admin</td>
+                                        <td>'.$users->myId.'</td>
+                                        <td>'.$users->ref_num_transaction.'</td>
+                                        <td>'.$users->myRecharge.'</td>
+                                        <td>'.$users->abonnement.'</td>
+                                         <td>'.$users->last_name.'</td>
+                                         <td>'.$users->phone.'</td>
+                                        <td>';
 
+                                        if($users->transaction_state == '0'){
+                                            echo '<btn class="btn-danger btn-xs">En attente</btn>
+                                                  <td>???</td>';
+                                        } else{
+                                            echo '<btn class="btn-success btn-xs">Validée</btn>
+                                                  <td>Bertin</td>';
+                                        }
+                                        echo '</td>
+                                   
                                         <td>
                                             <div class="btn-group pull-right">
                                                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                                     <i class="fa fa-chevron-down"></i>
                                                 </button>
                                                 <ul class="dropdown-menu slidedown" wfd-invisible="true">
-                                                    <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client">
+                                                    <!--<li>
+                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client'.$users->myId.'">
                                                             <i class="fa fa-edit"></i> modifier
                                                         </a>
-                                                    </li>
+                                                    </li>-->
                                                     <li class="divider"></li>
                                                     <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client">
+                                                        <a href="#" data-toggle="modal" data-target="#modal_validate'.$users->myId.'">
                                                             <i class="fa fa-check"></i> Valider
                                                         </a>
                                                     </li>
@@ -160,8 +287,8 @@
 
                                                     <li class="divider"></li>
                                                     <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_delete_client">
-                                                            <i class="fa fa-minus fa-fw"></i> Supprimer
+                                                        <a href="#" data-toggle="modal" data-target="#modal_invalider'.$users->myId.'">
+                                                            <i class="fa fa-minus fa-fw"></i> Invalider
                                                         </a>
                                                     </li>
 
@@ -170,101 +297,120 @@
 
                                         </td>
 
-                                    </tr>
+                                    </tr>';
+                                        echo '<div class="modal fade" id="modal_update_client'.$users->myId.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" wfd-invisible="true">
+
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <div class="text-center text-info help">Vous pouvez aussi directement modifier ces informations</div>
+                                            <div class="text-center message"></div>
 
 
-                                    <tr class="odd gradeX">
+                                            <form role="form" class="update_client'.$users->myId.'">
+                                            <div class="form-group">
+                                                <label>Nom *</label>
+                                                <input class="form-control" type="text" value="'.$users->last_name.'" name="last_name">
+                                                <input type="hidden" value="'.$users->myId.'" name="id_trans">
+                                            </div>
+             
 
-                                        <td> PARABOLE  (32)</td>
-                                        <td> 2018-01-08 13:03:14</td>
-                                        <td> 10</td>
-                                        <td> super admin</td>
-                                        <td>
+                    <div class="form-group">
+                        <label for="phone">Telephone *</label>
+                        <input id="phone" class="form-control" type="tel" name="phone" required value="'.$users->phone.'">
+                    </div>
+                    
+                          <div class="form-group">
+                                    <label for="depot">Canal de paiement</label>
+                                    <select id="depot" name="depot"
+                                            class="form-control">';
 
-                                            <btn class="btn-success btn-xs">Validée</btn>
+                                        foreach (App::getDB()->query('SELECT id, name, mobile_operator FROM recharge ORDER BY id DESC') as $subcriptions):
+                                            echo '<option title="'.$subcriptions->mobile_operator .'" value="' . $subcriptions->id . '">' . $subcriptions->name .'</option>';
+                                        endforeach;
 
-                                        </td>
-                                        <td> super admin</td>
+                                    echo '</select>
+                                </div>
 
-                                        <td>
-                                            <div class="btn-group pull-right ">
-                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu slidedown" wfd-invisible="true">
-                                                    <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                            <i class="fa fa-edit"></i> modifier
-                                                        </a>
-                                                    </li>
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                            <i class="fa fa-check"></i> Valider
-                                                        </a>
-                                                    </li>
-
-
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_delete_client">
-                                                            <i class="fa fa-minus fa-fw"></i> Supprimer
-                                                        </a>
-                                                    </li>
-
-                                                </ul>
+                    <div class="form-group">
+                        <label for="abonnement">Numéro Abonnement </label>
+                        <input id="abonnement" class="form-control" type="text" name="abonnement" value="'.$users->numero_abonnement.'">
+                    </div>';
+                                        ?>
+                                            <div class="form-group">
+                                                <label for="bouquet">Bouquet *</label>
+                                                <select id="bouquet" name="bouquet"
+                                                        class="form-control">
+                                                    <?php
+                                                    foreach (App::getDB()->query('SELECT id, name FROM subcriptions ORDER BY id DESC') as $subcriptions):
+                                                        echo '<option title="'.$subcriptions->description.'" value="' . $subcriptions->id . '">' . $subcriptions->name . '</option>';
+                                                    endforeach;
+                                                    ?>
+                                                </select>
                                             </div>
 
-                                        </td>
+                                            <button class="btn btn-primary btn_update_client" onclick="update_clients(<?=$users->myId;?>);return false;">Envoyer</button>
+                                            </form>
+                                            <?php
+                                            echo '</div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    </tr>
+                            </div>';
 
-
-                                    <tr class="odd gradeX">
-
-                                        <td> PARABOLE  (32)</td>
-                                        <td> 2018-01-08 13:04:14</td>
-                                        <td> 10</td>
-                                        <td> super admin</td>
-                                        <td>
-                                            <btn class="btn-danger btn-xs">En attente</btn>
-
-                                        </td>
-                                        <td> super admin</td>
-
-                                        <td>
-                                            <div class="btn-group pull-right ">
-                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </button>
-                                                <ul class="dropdown-menu slidedown" wfd-invisible="true">
-                                                    <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                            <i class="fa fa-edit"></i> modifier
-                                                        </a>
-                                                    </li>
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_update_client">
-                                                            <i class="fa fa-check"></i> Valider
-                                                        </a>
-                                                    </li>
+                                            echo '<div class="modal fade" id="modal_validate'.$users->myId.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" wfd-invisible="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Validation des transaction</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="message"></div>
+                                            Voulez-vous vraiment Valider la transaction de référence  <strong>'.$users->ref_num_transaction.'</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
 
 
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                        <a href="#" data-toggle="modal" data-target="#modal_delete_client">
-                                                            <i class="fa fa-minus fa-fw"></i> Supprimer
-                                                        </a>
-                                                    </li>
+                                            <button type="button" onclick="validate_transaction('.$users->myId.')" class="btn btn-primary">Oui</button>
 
-                                                </ul>
-                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
 
-                                        </td>
+                                            echo '<div class="modal fade" id="modal_invalider'.$users->myId.'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" wfd-invisible="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Validation des transaction</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="message"></div>
+                                            Voulez-vous vraiment invalider la transaction de référence  <strong>'.$users->ref_num_transaction.'</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
 
-                                    </tr>
 
+                                            <button type="button" onclick="invalidate_transaction('.$users->myId.')" class="btn btn-primary">Oui</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+                                    endforeach;
+                                    ?>
 
 
                                     </tbody>
@@ -274,7 +420,9 @@
                         </div>
                     </div>
                     <!--End Advanced Tables -->
-
+                        <?php
+                    }
+                    ?>
                 </div>
 
 
